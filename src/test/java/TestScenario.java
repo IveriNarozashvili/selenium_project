@@ -20,7 +20,7 @@ public class TestScenario {
 
     @Before
     public void initialization(){
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver,10);
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
@@ -30,7 +30,7 @@ public class TestScenario {
     @Test
     public void startTest() throws InterruptedException {
         WebElement menuButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[@id='main-navbar']//a[@data-toggle='dropdown' and contains(text(), 'Меню')]")));
+                By.xpath("//div[@id='main-navbar']//a[@data-toggle='dropdown' and contains(text(),'Меню')]")));
         menuButton.click();
 
         WebElement dmsButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -40,7 +40,7 @@ public class TestScenario {
         WebElement headerDms = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//h1[@class='content-document-header']")));
         Assert.assertEquals("Заголовок не соответствует",
-                " ДМС - добровольное медицинское страхование", headerDms.getText());
+                "ДМС - добровольное медицинское страхование", headerDms.getText());
 
         WebElement sendRequestButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//a[contains(text(), 'Отправить заявку')]")));
