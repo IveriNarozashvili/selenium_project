@@ -19,10 +19,10 @@ public class TestScenario {
     private static Wait<WebDriver> wait;
 
     @Before
-    public void initialization(){
+    public void startUp(){
         System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver, 10);
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.get(targetURL);
     }
@@ -37,21 +37,15 @@ public class TestScenario {
                 By.xpath("//a[contains(text(),'ДМС')]")));
         dmsButton.click();
 
-        WebElement headerDms = wait.until(ExpectedConditions.visibilityOfElementLocated(
+        WebElement headerDms = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//h1[@class='content-document-header']")));
         Assert.assertEquals("Заголовок не соответствует",
-                "ДМС - добровольное медицинское страхование", headerDms.getText());
+                "ДМС — добровольное медицинское страхование", headerDms.getText());
 
         WebElement sendRequestButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(text(), 'Отправить заявку')]")));
+                By.xpath("//a[contains(text(),'Отправить заявку')]")));
         sendRequestButton.click();
 
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//h4//b[text[text()='Заявка на добровольное медицинское страхование']")));
-        } catch (org.openqa.selenium.NoSuchElementException e) {
-            System.out.println("Форма заявки не открылась");
-        }
 
         WebElement lastNameInput = driver.findElement(By.xpath("//input[@name='LastName']"));
         WebElement firstNameInput = driver.findElement(By.xpath("//input[@name='FirstName']"));
@@ -64,14 +58,14 @@ public class TestScenario {
         WebElement checkbox = driver.findElement(By.xpath("//input[@type='checkbox']"));
         WebElement sendButton = driver.findElement(By.xpath("//button[@id='button-m']"));
 
-        lastNameInput.sendKeys("Петров");
+        lastNameInput.sendKeys("Иванов");
         firstNameInput.sendKeys("Василий");
         middleNameInput.sendKeys("Станиславович");
         Thread.sleep(500);
         new Select(selectRegion).selectByIndex(1);
 
         telephoneNumber.click();
-        int[] telNumbsSeq = {9, 7, 7, 5, 4, 6, 5, 1, 9, 7};
+        int[] telNumbsSeq = {9,7,7,5,4,6,5,1,9,7};
         for (int s : telNumbsSeq) {
             telephoneNumber.sendKeys(String.valueOf(s));
             Thread.sleep(50);
@@ -80,31 +74,20 @@ public class TestScenario {
         email.sendKeys("qwertyqwerty");
 
         date.click();
-        int[] dateNumbsSeq = {6, 1, 1, 5, 6, 8, 4, 0};
+        int[] dateNumbsSeq = {2, 1, 1, 0, 2, 0, 2, 0};
         for (int s : dateNumbsSeq) {
             date.sendKeys(String.valueOf(s));
-            Thread.sleep(50);
+            Thread.sleep(500);
         }
 
         comment.sendKeys("йфячсм");
         checkbox.click();
 
-        Assert.assertEquals("Ошибка ввода фамилии", "Петров", lastNameInput.getAttribute("value"));
-        Assert.assertEquals("Ошибка ввода имени", "Василий", firstNameInput.getAttribute("value"));
-        Assert.assertEquals("Ошибка ввода отчества", "Станиславович", middleNameInput.getAttribute("value"));
-        Assert.assertEquals("Ошибка ввода региона", "77", selectRegion.getAttribute("value"));
-        Assert.assertEquals("Ошибка ввода номера телефона", "+7(977)546-51-97", telephoneNumber.getAttribute("value"));
-        Assert.assertEquals("Ошибка ввода email", "qwertyqwerty", email.getAttribute("value"));
-        Assert.assertEquals("Ошибка ввода даты", "20.08.2020", date.getAttribute("value"));
-        Assert.assertEquals("Ошибка ввода комментария", "йфячсм", comment.getAttribute("value"));
+        Assert.assertEquals("Введите корректный email", "qwertyqwerty", email.getAttribute("value"));
+
 
         sendButton.click();
 
-        try {
-            driver.findElement(By.xpath("//span[text()='Введите адрес электронной почты']"));
-        } catch (org.openqa.selenium.NoSuchElementException e) {
-            System.out.println("Все верно");
-        }
 
         Thread.sleep(5000);
     }
