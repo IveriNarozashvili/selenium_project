@@ -83,11 +83,11 @@ public class TestScenario {
         comment.sendKeys("йфячсм");
         checkbox.click();
 
-        Assert.assertEquals("Введите корректный email", "qwertyqwerty", email.getAttribute("value"));
+
 
 
         sendButton.click();
-
+        Assert.assertEquals("Введите корректный email", "qwertyqwerty", email.getAttribute("value"));
 
         Thread.sleep(5000);
     }
