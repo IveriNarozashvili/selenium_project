@@ -19,8 +19,8 @@ public class TestScenario {
     private static Wait<WebDriver> wait;
 
     @Before
-    public void startUp(){
-        System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
+    public void startUp() {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 10);
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
@@ -65,7 +65,7 @@ public class TestScenario {
         new Select(selectRegion).selectByIndex(1);
 
         telephoneNumber.click();
-        int[] telNumbsSeq = {9,7,7,5,4,6,5,1,9,7};
+        int[] telNumbsSeq = {9, 7, 7, 5, 4, 6, 5, 1, 9, 7};
         for (int s : telNumbsSeq) {
             telephoneNumber.sendKeys(String.valueOf(s));
             Thread.sleep(50);
@@ -84,15 +84,15 @@ public class TestScenario {
         checkbox.click();
 
 
-
-
         sendButton.click();
         Assert.assertEquals("Введите корректный email", "qwertyqwerty", email.getAttribute("value"));
 
         Thread.sleep(5000);
     }
 
-        @After
-        public void endTest(){driver.quit();}
+    @After
+    public void endTest() {
+        driver.quit();
     }
+}
 
